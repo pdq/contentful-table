@@ -95,6 +95,17 @@ export const getInitialTableData = ({
 }
 
 /**
+ * Keep a number with the boundaries of a minimum and maximum
+ *
+ * @param num value to evaluate
+ * @param min minimum value boundary
+ * @param max maximum value boundary
+ * @returns bounded value within a min/max
+ */
+export const clamp = (num: number, min: number, max: number) =>
+  Math.min(Math.max(num, min), max)
+
+/**
  * Pretend prototype for `Extension.field`
  */
 class MockExtensionField {

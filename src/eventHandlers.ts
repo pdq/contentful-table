@@ -1,4 +1,5 @@
 import TableController from './tableController'
+import { clamp } from './utils'
 
 export const minColumns = 2
 export const minRows = 2
@@ -29,17 +30,6 @@ rowsInputElem.min = minRows.toString()
 rowsInputElem.max = maxRows.toString()
 
 /**
- * Keep a number with the boundaries of a minimum and maximum
- *
- * @param num value to evaluate
- * @param min minimum value boundary
- * @param max maximum value boundary
- * @returns bounded value within a min/max
- */
-const calculateFromMinMax = (num: number, min: number, max: number) =>
-  Math.min(Math.max(num, min), max)
-
-/**
  * Create all the event handles on the table element's columns/rows and
  * auxiliary settings buttons/inputs
  *
@@ -65,7 +55,7 @@ const createHandlers = (controller: TableController) => {
    */
   columnsInputElem.onchange = async function(ev) {
     const oldValue = controller.columns
-    const newValue = calculateFromMinMax(
+    const newValue = clamp(
       parseInt((<HTMLInputElement>ev.currentTarget).value, 10),
       minColumns,
       maxColumns
@@ -94,7 +84,7 @@ const createHandlers = (controller: TableController) => {
    */
   rowsInputElem.onchange = async function(ev) {
     const oldValue = controller.rows
-    const newValue = calculateFromMinMax(
+    const newValue = clamp(
       parseInt((<HTMLInputElement>ev.target).value, 10),
       minRows,
       maxRows
@@ -124,7 +114,7 @@ const createHandlers = (controller: TableController) => {
    */
   addColumnButtonElem.onclick = function(_ev) {
     const oldValue = controller.columns
-    const newValue = calculateFromMinMax(oldValue + 1, minColumns, maxColumns)
+    const newValue = clamp(oldValue + 1, minColumns, maxColumns)
     controller.addColumn()
     columnsInputElem.value = newValue.toString()
   }
@@ -135,7 +125,7 @@ const createHandlers = (controller: TableController) => {
    */
   removeColumnButtonElem.onclick = async function(_ev) {
     const oldValue = controller.columns
-    const newValue = calculateFromMinMax(oldValue - 1, minColumns, maxColumns)
+    const newValue = clamp(oldValue - 1, minColumns, maxColumns)
     const deleteConfirmed = await controller.removeColumn()
     if (!deleteConfirmed) return
     columnsInputElem.value = newValue.toString()
@@ -147,7 +137,7 @@ const createHandlers = (controller: TableController) => {
    */
   addRowButtonElem.onclick = function(_ev) {
     const oldValue = controller.rows
-    const newValue = calculateFromMinMax(oldValue + 1, minRows, maxRows)
+    const newValue = clamp(oldValue + 1, minRows, maxRows)
     controller.addRow()
     rowsInputElem.value = newValue.toString()
   }
@@ -158,7 +148,7 @@ const createHandlers = (controller: TableController) => {
    */
   removeRowButtonElem.onclick = async function(_ev) {
     const oldValue = controller.rows
-    const newValue = calculateFromMinMax(oldValue - 1, minRows, maxRows)
+    const newValue = clamp(oldValue - 1, minRows, maxRows)
     const deleteConfirmed = await controller.removeRow()
     if (!deleteConfirmed) return
     rowsInputElem.value = newValue.toString()
