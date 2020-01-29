@@ -18,7 +18,7 @@ Publish commands with `source ./.env` which will only work with unix workstation
 
 ## Contentful
 
-You must update
+You must create the extension manually in the Contentful Extensions console. See [#issues](#issues) below for more information.
 
 ### Create
 
