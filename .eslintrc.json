@@ -1,0 +1,25 @@
+{
+  "root": true,
+  "extends": [
+    "plugin:pdq/recommended",
+    "plugin:pdq/typescript",
+    "plugin:pdq/prettier-ts"
+  ],
+  "plugins": [
+    "pdq"
+  ],
+  "rules": {
+    "node/no-unpublished-require": 0,
+    "no-console": 0,
+    "@typescript-eslint/no-var-requires": 0
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
