@@ -3,7 +3,12 @@ import { init as initContentfulExtension } from 'contentful-ui-extensions-sdk'
 
 import TableController from './tableController'
 import createHandlers, { minColumns, minRows } from './eventHandlers'
-import { createMockExtension, getInitialTableData, Extension } from './utils'
+import {
+  useContentfulApi,
+  createMockExtension,
+  getInitialTableData,
+  Extension,
+} from './utils'
 
 const contentElem = document.getElementById('table-extension-content')
 const tableElem = contentElem.querySelector('table')
@@ -44,12 +49,23 @@ const handleInitialization = (extension?: Extension) => {
     table: tableElem,
     state: value,
     db: extension.field,
+    dialogs: extension.dialogs,
   })
 
   createHandlers(tableController)
+
+  /**
+   * Automatically size the iframe as the content grows
+   * in order to avoid scrollbars within the extension
+   */
+  extension.window.updateHeight()
+  extension.window.startAutoResizer()
 }
 
-if (process.env.NODE_ENV === 'production') {
+/**
+ * Conditionally set up environment for demo/dev and Contentful extension
+ */
+if (useContentfulApi()) {
   try {
     initContentfulExtension(handleInitialization)
   } catch (err) {

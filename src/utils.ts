@@ -1,7 +1,33 @@
 /**
  * @documentation https://github.com/contentful/ui-extensions-sdk/blob/master/typings.d.ts
  */
-import { FieldAPI } from 'contentful-ui-extensions-sdk'
+import { FieldAPI, DialogsAPI } from 'contentful-ui-extensions-sdk'
+
+export { DialogsAPI }
+
+export enum Intent {
+  Primary = 'primary',
+  Positive = 'positive',
+  Negative = 'negative',
+}
+
+/**
+ * Check if window is within an iframe
+ *
+ * @source https://stackoverflow.com/a/326076/6817437
+ */
+const inIframe = () => {
+  try {
+    return window.self !== window.top
+  } catch (e) {
+    return true
+  }
+}
+
+/**
+ * Determine whether to use Contentful API or mock for dev and demo
+ */
+export const useContentfulApi = () => inIframe()
 
 /**
  * Optional table data that may seed the table with populated data -
@@ -34,6 +60,16 @@ export type ExtensionField =
  */
 export interface Extension {
   field: ExtensionField
+  dialogs?: DialogsAPI
+  /**
+   * Add contentful API to window
+   *
+   * @source https://www.contentful.com/developers/docs/extensibility/ui-extensions/sdk-reference/#window
+   */
+  window: {
+    startAutoResizer: () => void
+    updateHeight: () => void
+  }
 }
 
 /**
@@ -86,8 +122,17 @@ class MockExtensionField {
   }
 }
 
+const emptyFunction = () => {}
+
+/**
+ * @returns mimic for extension parameter provided by Contentful API
+ */
 export const createMockExtension = (): Extension => {
   return {
     field: new MockExtensionField(),
+    window: {
+      updateHeight: emptyFunction,
+      startAutoResizer: emptyFunction,
+    },
   }
 }

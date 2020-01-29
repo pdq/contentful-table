@@ -4,11 +4,15 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
-    "build": "parcel build src/index.html",
-    "prepublish-create": "npm run build",
-    "publish-create": "npm run source-vars && contentful extension create --space-id ${SPACE_ID} --name ${EXTENSION_NAME} --management-Token ${CONTENTFUL_MANAGEMENT_ACCESS_TOKEN}",
-    "publish-update": "npm run source-vars && contentful extension update --space-id ${SPACE_ID} --name ${EXTENSION_NAME} --management-Token ${CONTENTFUL_MANAGEMENT_ACCESS_TOKEN} --force",
-    "source-vars": "source ./.env",
+    "build": "parcel build src/index.html --public-url ./",
+    "clean": "rimraf dist",
+    "contentful:create": "npm run source-vars && contentful extension create --id ${EXTENSION_ID} --space-id ${SPACE_ID} --name ${EXTENSION_NAME} --management-Token ${CONTENTFUL_MANAGEMENT_ACCESS_TOKEN} --field-types Object --src ${EXTENSION_SRC}",
+    "contentful:update": "npm run source-vars && contentful extension update --id ${EXTENSION_ID} --space-id ${SPACE_ID} --name ${EXTENSION_NAME} --management-Token ${CONTENTFUL_MANAGEMENT_ACCESS_TOKEN} --field-types Object --src ${EXTENSION_SRC} --force",
+    "prebuild": "npm run clean",
+    "prepublish": "npm run build",
+    "prestart": "npm run clean",
+    "publish": "gh-pages -d dist",
+    "source-vars": "source ./.env && echo ${EXTENSION_ID} ${EXTENSION_SRC}",
     "start": "parcel src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,6 +32,7 @@
     "@types/node": "^13.5.1",
     "contentful-cli": "^1.2.11",
     "eslint": "^6.8.0",
+    "gh-pages": "^2.2.0",
     "husky": "^4.2.1",
     "lint-staged": "^10.0.3",
     "parcel-bundler": "^1.12.4",
@@ -45,5 +50,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  }
+  },
+  "browserslist": [
+    "last 1 Chrome versions"
+  ]
 }

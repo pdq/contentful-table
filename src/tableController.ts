@@ -1,4 +1,4 @@
-import { ExtensionValues, ExtensionField } from './utils'
+import { Intent, ExtensionValues, ExtensionField, DialogsAPI } from './utils'
 
 export default class TableController {
   /**
@@ -9,16 +9,27 @@ export default class TableController {
    * Values from existing tables and to append new values to
    */
   state: ExtensionValues
+  /**
+   * Save state to external source (Contentful extension or otherwise localStorage for demo)
+   */
   db: ExtensionField
+  /**
+   * Can be utilized to unsubscribe to value changes
+   */
   detachValueChangeHandler: (values: ExtensionValues) => void
+  /**
+   * API provided by Contentful to allow extension to respond to user feedback
+   */
+  dialogs: DialogsAPI
 
   /**
    * Initialize the table and its data
    */
-  constructor({ table, state, db }) {
+  constructor({ table, state, db, dialogs }) {
     this.table = table
     this.state = state
     this.db = db
+    this.dialogs = dialogs
 
     for (let i = 0; i < this.state.tableData.length; i++) {
       this.addRow()
@@ -125,6 +136,25 @@ export default class TableController {
   }
 
   /**
+   * Confirm whether to delete, using Contentful Dialog API
+   * if it's available, or just `window.confirm`
+   *
+   * @returns a promise of whether to delete
+   */
+  confirmDelete = async (message: string): Promise<boolean> => {
+    if (this.dialogs) {
+      console.log('this.dialogs: ', this.dialogs)
+      return this.dialogs.openConfirm({
+        title: 'Really delete?',
+        message,
+        intent: Intent.Negative,
+      })
+    } else {
+      return window.confirm(message)
+    }
+  }
+
+  /**
    * The magic behind `textarea` continuing to fill
    * parent `td` height. As text progresses to CRLF or is deleted,
    * the natural height of the textarea is evaluated, and all
@@ -171,7 +201,6 @@ export default class TableController {
    * @param rowElem     HTML row element on which to append cell
    * @param dataRow     Row index (y-axis, zero-based)
    * @param dataColumn  Column index (x-axis, zero-based)
-   * @param value       Textarea initial value
    */
   addCell = (
     rowElem: HTMLTableRowElement,
@@ -229,9 +258,9 @@ export default class TableController {
   /**
    * @usage Remove the last row from the table
    *
-   * @returns Whether the row was deleted
+   * @returns A promise of whether the row was deleted
    */
-  removeRow = (): boolean => {
+  removeRow = async (): Promise<boolean> => {
     if (this.table.rows.length <= 2) return
     const deleteIndex = this.table.rows.length - 1
     let needsConfirmation = false,
@@ -246,7 +275,7 @@ export default class TableController {
       }
     }
     const yesDelete = needsConfirmation
-      ? window.confirm(
+      ? await this.confirmDelete(
           `Are you sure you want to delete row ${deleteIndex +
             1}?${removeValues}`
         )
@@ -277,14 +306,15 @@ export default class TableController {
       this.state.tableData[index].push(undefined)
       this.save()
     })
+    this.handleHeaderStyle()
   }
 
   /**
    * @usage Remove the table column with the highest index (or most-recently created)
    *
-   * @returns Whether the row was deleted
+   * @returns A promise of whether the row was deleted
    */
-  removeColumn = (): boolean => {
+  removeColumn = async (): Promise<boolean> => {
     if (this.table.rows[0].cells.length <= 2) return
     const lastCell = this.table.rows[0].cells[
       this.table.rows[0].cells.length - 1
@@ -304,7 +334,7 @@ export default class TableController {
       }
     }
     const yesDelete = needsConfirmation
-      ? window.confirm(
+      ? await this.confirmDelete(
           `Are you sure you want to delete column ${columnNumber}?${removeValues}`
         )
       : true
