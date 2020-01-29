@@ -14,6 +14,8 @@ Add `SPACE_ID` and `CONTENTFUL_MANAGEMENT_ACCESS_TOKEN` values in order to uploa
 
 ## Publish
 
+Publish commands with `source ./.env` which will only work with unix workstations. For a cross-platform experience, we're [waiting](https://github.com/toddbluhm/env-cmd/issues/112) on a new release with [env-cmd](https://www.npmjs.com/package/env-cmd) for variable expansion in NPM scripts.
+
 ### Create
 
 ```sh
@@ -21,7 +23,6 @@ npm run publish:create
 ```
 
 Create task will register the extension in your space on Contentful.
-
 
 ### Update
 
