@@ -82,17 +82,7 @@ export const getInitialTableData = ({
 }: {
   rows: number
   columns: number
-}): TableData => {
-  const data = []
-  for (let i = 1; i <= rows; i++) {
-    const row = []
-    for (let j = 1; j <= columns; j++) {
-      row.push(undefined)
-    }
-    data.push(row)
-  }
-  return data
-}
+}): TableData => Array.from(new Array(rows), () => new Array(columns))
 
 /**
  * Keep a number with the boundaries of a minimum and maximum
