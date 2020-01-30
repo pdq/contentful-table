@@ -1,5 +1,4 @@
 import { init as initContentfulExtension } from 'contentful-ui-extensions-sdk'
-// window.startAutoResizer() ?
 
 import TableController from './tableController'
 import createHandlers, { minColumns, minRows } from './eventHandlers'
