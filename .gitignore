@@ -1,0 +1,10 @@
+.env
+*.log*
+*.swp
+*~
+node_modules
+.DS_Store
+.idea
+.vscode
+.cache
+dist

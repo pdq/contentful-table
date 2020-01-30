@@ -1,0 +1,214 @@
+// Contentful-specific
+$font-color: #2d2f31;
+$font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica,
+Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+$font-size: 14px;
+
+// Contentful-specific
+$border-color: #d3dce0;
+
+// Contentful-specific
+$content-max-width: 768px;
+
+// Contentful-specific
+$label-color: #8091a5;
+$input-color: #536171;
+$input-background-color: transparent;
+
+// Contentful-specific
+$button-background-color: #e5ebed;
+$button-background-color-hover: $border-color;
+$button-background-color-active: #c3cfd5;
+$button-border-color: #c3cfd5;
+
+// Custom
+$cell-background-color: $input-background-color;
+$cell-background-color-hover: #eef;
+$cell-background-color-focus: #ccf;
+$cell-header-background-color: #eee;
+$cell-header-background-color-hover: #eef;
+
+body {
+  color: $font-color;
+  font-family: $font-family;
+  font-size: $font-size;
+  line-height: 18px;
+  // As recommended by https://www.contentful.com/developers/docs/extensibility/ui-extensions/sdk-reference/#window
+  overflow: hidden;
+}
+
+#table-extension-content {
+  // match Contentful's content `max-width` for development env
+  max-width: $content-max-width;
+  margin: auto;
+}
+
+.table-settings {
+  margin-bottom: 1rem;
+
+  #use-header, label[for="use-header"] {
+    cursor: pointer;
+  }
+
+  label[for="use-header"] {
+    padding-left: 0.5rem;
+  }
+
+  div {
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+
+  .field-description {
+    color: #8091a5;
+    margin: 0.642857em 0;
+    font-style: italic;
+    width: 100%;
+  }
+
+  input {
+    background-color: $input-background-color;
+    border: 1px solid $border-color;
+    max-height: 2.5rem;
+    font-size: 0.875rem;
+    // hack: padding + line-height
+    // manipulated to make type="number" arrows bigger, but sum height 39px
+    padding: 0.25rem 0.65625rem;
+    line-height: 29px;
+    margin: 0;
+    color: $input-color;
+  }
+}
+
+label {
+  display: flex;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 24px;
+  color: $label-color;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-flex-start {
+  align-items: flex-start;
+}
+
+.full-width {
+  width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+tr {
+  box-sizing: border-box;
+}
+
+td, th {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid $border-color;
+  padding: 0;
+  line-height: 0;
+
+  textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    resize: none;
+    overflow: hidden;
+    min-height: 50px;
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 14px;
+    padding: 5px;
+    background-color: $cell-background-color;
+    transition: background-color 100ms;
+    // `display: block;` OR `vertical-align: bottom;` works to fill textarea in td
+    display: block;
+
+    &:hover {
+      background-color: $cell-background-color-hover;
+      cursor: cell;
+    }
+
+    &:focus {
+      background-color: $cell-background-color-focus;
+      cursor: text;
+    }
+  }
+}
+
+th textarea {
+  background-color: $cell-header-background-color;
+  font-weight: bold;
+  user-select: none;
+  min-height: auto;
+}
+
+th textarea:hover:not(:focus) {
+  background-color: $cell-header-background-color-hover;
+}
+
+.row-actions {
+  margin-top: 1rem;
+  flex-direction: row;
+
+  button:first-child {
+    margin-right: 0.5rem;
+  }
+}
+
+.column-actions {
+  margin-left: 1rem;
+  position: relative;
+  flex-direction: column;
+
+  button:first-child {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.row-actions,
+.column-actions {
+  display: flex;
+
+  button {
+    display: block;
+    background: none;
+    cursor: pointer;
+    height: 1.875rem;
+    width: 40px;
+    padding: 0 0.625rem;
+    background-color: $button-background-color;
+    transition: background 0.2s ease-in-out, opacity 0.2s ease-in-out,
+    border-color 0.2s ease-in-out;
+    border-radius: 0.125rem;
+    border: 0.0625rem solid $button-border-color;
+    user-select: none;
+
+    &:hover {
+      background-color: $button-background-color-hover;
+    }
+
+    &:active {
+      background-color: $button-background-color-active;
+    }
+  }
+}

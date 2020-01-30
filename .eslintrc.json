@@ -1,0 +1,15 @@
+{
+  "root": true,
+  "extends": [
+    "plugin:pdq/recommended",
+    "plugin:pdq/typescript",
+    "plugin:pdq/prettier-ts"
+  ],
+  "plugins": [
+    "pdq"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  }
+}
