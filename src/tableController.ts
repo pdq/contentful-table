@@ -238,8 +238,7 @@ export default class TableController {
     }
 
     const row = this.table.insertRow()
-    const columns =
-      this.table.rows[0].cells.length || this.state.tableData[0].length
+    const columns = this.state.tableData[0].length
     const cellColumns = []
     for (let j = 0; j < columns; j++) {
       cellColumns.push(undefined)
