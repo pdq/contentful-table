@@ -143,7 +143,6 @@ export default class TableController {
    */
   confirmDelete = async (message: string): Promise<boolean> => {
     if (this.dialogs) {
-      console.log('this.dialogs: ', this.dialogs)
       return this.dialogs.openConfirm({
         title: 'Really delete?',
         message,
