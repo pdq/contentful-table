@@ -217,8 +217,7 @@ export default class TableController {
     textArea.dataset.column = columnIndex.toString()
     const { tableData } = this.state
     const value =
-      (tableData && tableData[rowIndex] && tableData[rowIndex][columnIndex]) ||
-      undefined
+      tableData && tableData[rowIndex] && tableData[rowIndex][columnIndex]
     textArea.value = value || ''
     cell.appendChild(textArea)
     // Invoke once on init to match other cells in the same row
