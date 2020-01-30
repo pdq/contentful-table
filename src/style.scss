@@ -1,8 +1,37 @@
+// Contentful-specific
+$font-color: #2d2f31;
+$font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica,
+Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+$font-size: 14px;
+
+// Contentful-specific
+$border-color: #d3dce0;
+
+// Contentful-specific
+$content-max-width: 768px;
+
+// Contentful-specific
+$label-color: #8091a5;
+$input-color: #536171;
+$input-background-color: transparent;
+
+// Contentful-specific
+$button-background-color: #e5ebed;
+$button-background-color-hover: $border-color;
+$button-background-color-active: #c3cfd5;
+$button-border-color: #c3cfd5;
+
+// Custom
+$cell-background-color: $input-background-color;
+$cell-background-color-hover: #eef;
+$cell-background-color-hover: #ccf;
+$cell-header-background-color: #eee;
+$cell-header-background-color-hover: #eef;
+
 body {
-  color: #2d2f31;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica,
-  Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-  font-size: 14px;
+  color: $font-color;
+  font-family: $font-family;
+  font-size: $font-size;
   line-height: 18px;
   // As recommended by https://www.contentful.com/developers/docs/extensibility/ui-extensions/sdk-reference/#window
   overflow: hidden;
@@ -10,7 +39,7 @@ body {
 
 #table-extension-content {
   // match Contentful's content `max-width` for development env
-  max-width: 768px;
+  max-width: $content-max-width;
   margin: auto;
 }
 
@@ -36,22 +65,22 @@ body {
 
   .field-description {
     color: #8091a5;
-    margin: .642857142857143em 0;
+    margin: 0.642857em 0;
     font-style: italic;
     width: 100%;
   }
 
   input {
-    background-color: #fff;
-    border: 1px solid #d3dce0;
+    background-color: $input-background-color;
+    border: 1px solid $border-color;
     max-height: 2.5rem;
     font-size: 0.875rem;
-    // padding + line-height
+    // hack: padding + line-height
     // manipulated to make type="number" arrows bigger, but sum height 39px
     padding: 0.25rem 0.65625rem;
     line-height: 29px;
     margin: 0;
-    color: #536171;
+    color: $input-color;
   }
 }
 
@@ -60,7 +89,7 @@ label {
   white-space: pre-wrap;
   font-size: 14px;
   line-height: 24px;
-  color: #8091a5;
+  color: $label-color;
 }
 
 .flex-row {
@@ -93,7 +122,7 @@ td, th {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #d3dce0;
+  border: 1px solid $border-color;
   padding: 0;
   line-height: 0;
 
@@ -109,32 +138,32 @@ td, th {
     border: none;
     font-size: 14px;
     padding: 5px;
-    background: transparent;
+    background-color: $cell-background-color;
     transition: background-color 100ms;
     // `display: block;` OR `vertical-align: bottom;` works to fill textarea in td
     display: block;
 
     &:hover {
-      background-color: #eef;
+      background-color: $cell-background-color-hover;
       cursor: cell;
     }
 
     &:focus {
+      background-color: $cell-background-color-focus;
       cursor: text;
-      background-color: #ccf;
     }
   }
 }
 
 th textarea {
-  background-color: #eee;
+  background-color: $cell-header-background-color;
   font-weight: bold;
   user-select: none;
   min-height: auto;
 }
 
 th textarea:hover:not(:focus) {
-  background-color: #eef;
+  background-color: $cell-header-background-color-hover;
 }
 
 .row-actions {
@@ -167,19 +196,19 @@ th textarea:hover:not(:focus) {
     height: 1.875rem;
     width: 40px;
     padding: 0 0.625rem;
-    background-color: #e5ebed;
+    background-color: $button-background-color;
     transition: background 0.2s ease-in-out, opacity 0.2s ease-in-out,
     border-color 0.2s ease-in-out;
     border-radius: 0.125rem;
-    border: 0.0625rem solid #c3cfd5;
+    border: 0.0625rem solid $button-border-color;
     user-select: none;
 
     &:hover {
-      background-color: #d3dce0;
+      background-color: $button-background-color-hover;
     }
 
     &:active {
-      background-color: #c3cfd5;
+      background-color: $button-background-color-active;
     }
   }
 }
