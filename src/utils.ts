@@ -1,6 +1,7 @@
 /**
  * @documentation https://github.com/contentful/ui-extensions-sdk/blob/master/typings.d.ts
  */
+// @ts-ignore
 import { FieldAPI, DialogsAPI } from 'contentful-ui-extensions-sdk'
 
 export { DialogsAPI }

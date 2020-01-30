@@ -236,7 +236,7 @@ export default class TableController {
      */
     if (lastRow) {
       const textElem = lastRow.querySelector('textarea')
-      index = parseInt(textElem.dataset.row, 10)
+      index = parseInt(textElem.dataset.row, 10) + 1
     } else {
       index = 0
     }
@@ -248,8 +248,8 @@ export default class TableController {
       this.addCell(row, index, columnIndex)
     }
 
+    const cellColumns = new Array(columns)
     if (!this.state.tableData[index]) {
-      const cellColumns = new Array(columns)
       this.state.tableData.push(cellColumns)
       this.save()
     }
