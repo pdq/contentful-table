@@ -239,14 +239,13 @@ export default class TableController {
 
     const row = this.table.insertRow()
     const columns = this.state.tableData[0].length
-    const cellColumns = []
     for (let j = 0; j < columns; j++) {
-      cellColumns.push(undefined)
       const columnIndex = j
       this.addCell(row, index, columnIndex)
     }
 
     if (!this.state.tableData[index]) {
+      const cellColumns = new Array(columns)
       this.state.tableData.push(cellColumns)
       this.save()
     }
