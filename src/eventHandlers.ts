@@ -47,7 +47,8 @@ const createHandlers = (controller: TableController) => {
    * Handle header setting toggle
    */
   useHeaderInputElem.onchange = function(ev) {
-    controller.setUseHeader((<HTMLInputElement>ev.currentTarget).checked)
+    const checked = (<HTMLInputElement>ev.currentTarget).checked
+    if (checked !== undefined) controller.setUseHeader(checked)
   }
 
   /**

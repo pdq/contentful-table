@@ -21,7 +21,13 @@ const tableElem = contentElem.querySelector('table')
  */
 const handleInitialization = (extension?: Extension) => {
   let value = extension.field.getValue()
-  // reset array if data corrupt
+  /**
+   * reset array if data corrupt -
+   * This could only occur when changes to state structure
+   * are made in a development environment.
+   *
+   * Resets state by resetting value definition
+   */
   if (
     value &&
     value.tableData &&

@@ -1,5 +1,5 @@
 import { Intent, ExtensionValues, ExtensionField, DialogsAPI } from './utils'
-import { minRows } from './eventHandlers'
+import { minColumns, minRows } from './eventHandlers'
 
 export default class TableController {
   /**
@@ -100,11 +100,11 @@ export default class TableController {
     const headerCells = Array.from(this.table.rows[0].cells)
     if (this.state.useHeader) {
       headerCells.forEach((cellElem) => {
-        this.changeTag(cellElem, 'th', true)
+        this.changeTag(cellElem, 'th')
       })
     } else {
       headerCells.forEach((cellElem) => {
-        this.changeTag(cellElem, 'td', true)
+        this.changeTag(cellElem, 'td')
       })
     }
   }
@@ -112,19 +112,17 @@ export default class TableController {
   /**
    * @source https://stackoverflow.com/a/15086834/6817437
    */
-  private changeTag = (
-    el: HTMLElement,
-    newTagName: string,
-    keepAttributes?: boolean
-  ) => {
+  private changeTag = (el: HTMLElement, newTagName: string) => {
     const newEl = document.createElement(newTagName)
     while (el.firstChild) {
       newEl.appendChild(el.firstChild)
     }
-    if (keepAttributes) {
-      for (let i = el.attributes.length - 1; i >= 0; --i) {
-        newEl.attributes.setNamedItem(el.attributes[i].cloneNode() as Attr)
-      }
+    /**
+     * Backwards loop in order to maintain the original order of
+     * any attributes
+     */
+    for (let i = el.attributes.length - 1; i >= 0; --i) {
+      newEl.attributes.setNamedItem(el.attributes[i].cloneNode() as Attr)
     }
     el.parentNode.replaceChild(newEl, el)
   }
@@ -231,9 +229,14 @@ export default class TableController {
   addRow = () => {
     const lastRow = this.table.rows[this.table.rows.length - 1]
     let index: number
+    /**
+     * Last row is not defined on the first pass
+     * when creating a row on an empty table
+     * and no `lastRow` is defined
+     */
     if (lastRow) {
       const textElem = lastRow.querySelector('textarea')
-      index = parseInt(textElem.dataset.row, 10) + 1
+      index = parseInt(textElem.dataset.row, 10)
     } else {
       index = 0
     }
@@ -263,14 +266,13 @@ export default class TableController {
     let needsConfirmation = false,
       removeValues = ''
     const row = this.table.rows[deleteIndex].cells
-    for (var i = 0; i < row.length; i++) {
-      const cellElem = row[i]
+    Array.from(row).forEach((cellElem) => {
       const textElem = cellElem.querySelector('textarea')
       if (!!textElem.value) {
         needsConfirmation = true
         removeValues += `\n\n${textElem.value}`
       }
-    }
+    })
     const yesDelete = needsConfirmation
       ? await this.confirmDelete(
           `Are you sure you want to delete row ${deleteIndex +
@@ -312,7 +314,7 @@ export default class TableController {
    * @returns A promise of whether the row was deleted
    */
   removeColumn = async (): Promise<boolean> => {
-    if (this.table.rows[0].cells.length <= 2) return
+    if (this.table.rows[0].cells.length <= minColumns) return
     const lastCell = this.table.rows[0].cells[
       this.table.rows[0].cells.length - 1
     ]
@@ -321,15 +323,14 @@ export default class TableController {
 
     let needsConfirmation = false,
       removeValues = ''
-    for (var i = 0; i < this.table.rows.length; i++) {
-      const rowEl = this.table.rows[i]
-      const lastCell = rowEl.cells[rowEl.cells.length - 1]
+    Array.from(this.table.rows).forEach((rowElem) => {
+      const lastCell = rowElem.cells[rowElem.cells.length - 1]
       const textElem = lastCell.querySelector('textarea')
       if (!!textElem.value) {
         needsConfirmation = true
         removeValues += `\n\n${textElem.value}`
       }
-    }
+    })
     const yesDelete = needsConfirmation
       ? await this.confirmDelete(
           `Are you sure you want to delete column ${columnNumber}?${removeValues}`
