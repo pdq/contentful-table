@@ -1,4 +1,5 @@
 import { Intent, ExtensionValues, ExtensionField, DialogsAPI } from './utils'
+import { minRows } from './eventHandlers'
 
 export default class TableController {
   /**
@@ -257,7 +258,7 @@ export default class TableController {
    * @returns A promise of whether the row was deleted
    */
   removeRow = async (): Promise<boolean> => {
-    if (this.table.rows.length <= 2) return
+    if (this.table.rows.length <= minRows) return
     const deleteIndex = this.table.rows.length - 1
     let needsConfirmation = false,
       removeValues = ''
