@@ -46,11 +46,11 @@ body {
 .table-settings {
   margin-bottom: 1rem;
 
-  #use-header, label[for="use-header"] {
+  #use-header, label[for="use-column-header"], label[for="use-row-header"] {
     cursor: pointer;
   }
 
-  label[for="use-header"] {
+  label[for="use-column-header"], label[for="use-row-header"] {
     padding-left: 0.5rem;
   }
 
