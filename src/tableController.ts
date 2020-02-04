@@ -36,7 +36,8 @@ export default class TableController {
       this.addRow()
     }
 
-    this.handleHeaderStyle()
+    this.handleColumnHeaderStyle()
+    this.handleRowHeaderStyle()
 
     /**
      * @usage see https://www.contentful.com/developers/docs/extensibility/ui-extensions/sdk-reference/#field
@@ -87,24 +88,53 @@ export default class TableController {
   /**
    * Change `useHeader` state
    */
-  setUseHeader = (useHeader: boolean) => {
-    this.state.useHeader = useHeader
+  setUseColumnHeader = (useColumnHeader: boolean) => {
+    this.state.useColumnHeader = useColumnHeader
     this.save()
-    this.handleHeaderStyle()
+    this.handleColumnHeaderStyle()
   }
 
   /**
-   * Style table header for user according to header usage
+   * Style table header for user according to header setting
    */
-  handleHeaderStyle = () => {
-    const headerCells = Array.from(this.table.rows[0].cells)
-    if (this.state.useHeader) {
-      headerCells.forEach((cellElem) => {
+  handleColumnHeaderStyle = () => {
+    const firstRowCells = Array.from(this.table.rows[0].cells)
+    if (this.state.useRowHeader) {
+      firstRowCells.shift()
+    }
+
+    if (this.state.useColumnHeader) {
+      firstRowCells.forEach((cellElem) => {
         this.changeTag(cellElem, 'th')
       })
     } else {
-      headerCells.forEach((cellElem) => {
+      firstRowCells.forEach((cellElem) => {
         this.changeTag(cellElem, 'td')
+      })
+    }
+  }
+
+  setUseRowHeader = (useRowHeader: boolean) => {
+    this.state.useRowHeader = useRowHeader
+    this.save()
+    this.handleRowHeaderStyle()
+  }
+
+  /**
+   * Style row header according to header setting
+   */
+  handleRowHeaderStyle = () => {
+    const rows = Array.from(this.table.rows)
+    if (this.state.useRowHeader) {
+      rows.forEach((rowElem) => {
+        const firstCell = rowElem.cells[0]
+        this.changeTag(firstCell, 'th')
+      })
+    } else {
+      rows.forEach((rowElem, index) => {
+        if (this.state.useColumnHeader && index === 0) return
+        const firstCell = rowElem.cells[0]
+        this.changeTag(firstCell, 'td')
       })
     }
   }
@@ -130,8 +160,15 @@ export default class TableController {
   /**
    * State item getter
    */
-  get useHeader() {
-    return this.state.useHeader
+  get useColumnHeader() {
+    return this.state.useColumnHeader
+  }
+
+  /**
+   * State item getter
+   */
+  get useRowHeader() {
+    return this.state.useRowHeader
   }
 
   /**
@@ -253,6 +290,7 @@ export default class TableController {
       this.state.tableData.push(cellColumns)
       this.save()
     }
+    this.handleRowHeaderStyle()
   }
 
   /**
@@ -305,7 +343,7 @@ export default class TableController {
       this.state.tableData[index].push(undefined)
       this.save()
     })
-    this.handleHeaderStyle()
+    this.handleColumnHeaderStyle()
   }
 
   /**

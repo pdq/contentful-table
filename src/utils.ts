@@ -40,7 +40,8 @@ export type TableData = Array<Array<string>>
  * Storage values for the extension's content field
  */
 export interface ExtensionValues {
-  useHeader: boolean
+  useColumnHeader: boolean
+  useRowHeader: boolean
   tableData: TableData
 }
 

@@ -43,7 +43,8 @@ const handleInitialization = (extension?: Extension) => {
      * Default table values
      */
     value = {
-      useHeader: true,
+      useColumnHeader: true,
+      useRowHeader: false,
       tableData: getInitialTableData({
         columns: minColumns,
         rows: minRows,
