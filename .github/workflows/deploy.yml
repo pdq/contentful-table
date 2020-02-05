@@ -32,7 +32,7 @@ jobs:
       - name: Push
         env:
           GITHUB_TOKEN: ${{ secrets.VENDOR_PAT }} # Hack: A PAT from an admin account to override our branch protections
-          REPOSITORY: ${{ toJson(github.repository) }}
+          REPOSITORY: ${{ github.repository }}
         run: |
           git remote add vendor https://x-access-token:$GITHUB_TOKEN@github.com/$REPOSITORY.git
           git push vendor master --follow-tags
