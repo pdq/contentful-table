@@ -2,7 +2,21 @@
 
 A _simple_ table Contentful UI extension: [view demo](https://pdq.github.io/contentful-table/)
 
-## Configure
+## Contentful
+
+### Console
+
+Create an extension and add this link to the src field:
+
+```
+https://pdq.github.io/contentful-table/
+```
+
+### CLI
+
+First, [setup](#setup) your environment.
+
+#### Configure
 
 Create a configuration file with your credentials for Contentful.
 
@@ -10,29 +24,19 @@ Create a configuration file with your credentials for Contentful.
 cp .env.example .env
 ```
 
-Add `SPACE_ID` and `CONTENTFUL_MANAGEMENT_ACCESS_TOKEN` values in order to upload this extension to your Contentful space.
+Add `SPACE_ID`, `CONTENTFUL_MANAGEMENT_ACCESS_TOKEN` and other values in `.env` in order to upload this extension to your Contentful space.
 
-## Publish
+Then, source the variables into your environment. For a cross-platform experience, we're [waiting](https://github.com/toddbluhm/env-cmd/issues/112) on a new release of [env-cmd](https://www.npmjs.com/package/env-cmd) for variable expansion in NPM scripts.
 
-To deploy changes to the extension hosted on `gh-pages`, you may merge your changes into `master` to initiate the Github Actions hook or run:
-
-```sh
-npm run publish
-```
-
-## Contentful
-
-Publish commands with `source ./.env` which will only work with unix workstations. For a cross-platform experience, we're [waiting](https://github.com/toddbluhm/env-cmd/issues/112) on a new release with [env-cmd](https://www.npmjs.com/package/env-cmd) for variable expansion in NPM scripts.
-
-### Create
+#### Create
 
 ```sh
 npm run contentful:create
 ```
 
-Create task will register the extension in your space on Contentful.
+This will register the extension in your space on Contentful.
 
-### Update
+#### Update
 
 Since the extension is self-hosted, the project does not need to be updated in Contentful after changes are made. However, if fields like `EXTENSION_NAME` or `EXTENSION_SRC` are altered, then the extension should be updated.
 
@@ -46,6 +50,24 @@ To use this UI extension in a Content Model:
 
 1. Add a new field `JSON Object`
 1. Configure the field under the "Appearance" tab to use the UI Extension "Table"
+
+## Setup
+
+Install the dependencies:
+
+```sh
+npm install
+```
+
+## Publish
+
+To publish your own hosted URL, you may deploy changes to the extension hosted from `gh-pages`. Merge your changes into `master` to initiate the Github Actions hook or run:
+
+```sh
+npm run publish
+```
+
+If you elect to use Github Actions to automate deployment, make sure to add a deployment key to deploy to your repo's Github Actions as [documented here](https://github.com/marketplace/actions/github-pages-action#1-add-ssh-deploy-key).
 
 ## Develop
 

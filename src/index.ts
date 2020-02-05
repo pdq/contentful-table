@@ -1,8 +1,8 @@
 // @ts-ignore
 import { init as initContentfulExtension } from 'contentful-ui-extensions-sdk'
 
-import TableController from './tableController'
-import createHandlers, { minColumns, minRows } from './eventHandlers'
+import TableController from './table-controller'
+import createHandlers, { minColumns, minRows } from './event-handlers'
 import {
   useContentfulApi,
   createMockExtension,
@@ -76,7 +76,7 @@ if (useContentfulApi()) {
   try {
     initContentfulExtension(handleInitialization)
   } catch (err) {
-    console.error(err)
+    console.error(err) // eslint-disable-line no-console
     contentElem.innerHTML = `
       <div>
         <h1>

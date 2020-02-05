@@ -1,20 +1,44 @@
 # Documentation:
 # https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-static-site-generators-with-nodejs
-name: Github Pages
+name: Deploy
 
 on:
   push:
     branches:
       - master
-  pull_request:
-    types: [closed]
-    branches:
-      - master
 
 jobs:
-  deploy:
+  version:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Version
+        run: /bin/bash ./bin/npm-version.sh
+
+      - name: Setup SSH Keys and known_hosts
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.ACTIONS_DEPLOY_KEY }}"
+
+      # GH Actions don't infinite loop:
+      # https://github.community/t5/GitHub-Actions/How-to-push-to-protected-branches-in-a-GitHub-Action/m-p/36156/highlight/true#M2461
+      - name: Tag
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          git filter-branch --msg-filter 'printf "[norelease] " && cat' HEAD
+          git push
+          git push --tags
+
+  deploy:
+    needs: version
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2

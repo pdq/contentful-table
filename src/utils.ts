@@ -52,8 +52,8 @@ export interface ExtensionValues {
 export type ExtensionField =
   | FieldAPI
   | {
-      getValue: () => any
-      setValue: (arg: any) => any
+      getValue: () => ExtensionValues
+      setValue: (arg: ExtensionValues) => void
     }
 
 /**
@@ -103,20 +103,20 @@ export const clamp = (num: number, min: number, max: number) =>
 class MockExtensionField {
   storageKeyName = 'mockContentfulData'
 
-  private serialize(data: any): string {
+  private serialize(data: ExtensionValues): string {
     return JSON.stringify(data)
   }
 
-  private deserialize(data: any): any {
+  private deserialize(data: string): ExtensionValues {
     return JSON.parse(data)
   }
 
-  setValue(value: any) {
+  setValue(value: ExtensionValues) {
     localStorage.setItem(this.storageKeyName, this.serialize(value))
     this.onValueChanged()
   }
 
-  getValue() {
+  getValue(): ExtensionValues {
     return this.deserialize(localStorage.getItem(this.storageKeyName))
   }
 
@@ -130,12 +130,10 @@ const emptyFunction = () => {}
 /**
  * @returns mimic for extension parameter provided by Contentful API
  */
-export const createMockExtension = (): Extension => {
-  return {
-    field: new MockExtensionField(),
-    window: {
-      updateHeight: emptyFunction,
-      startAutoResizer: emptyFunction,
-    },
-  }
-}
+export const createMockExtension = (): Extension => ({
+  field: new MockExtensionField(),
+  window: {
+    updateHeight: emptyFunction,
+    startAutoResizer: emptyFunction,
+  },
+})

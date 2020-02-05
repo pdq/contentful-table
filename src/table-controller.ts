@@ -1,5 +1,5 @@
 import { Intent, ExtensionValues, ExtensionField, DialogsAPI } from './utils'
-import { minColumns, minRows } from './eventHandlers'
+import { minColumns, minRows } from './event-handlers'
 
 export default class TableController {
   /**
@@ -132,7 +132,9 @@ export default class TableController {
       })
     } else {
       rows.forEach((rowElem, index) => {
-        if (this.state.useColumnHeader && index === 0) return
+        if (this.state.useColumnHeader && index === 0) {
+          return
+        }
         const firstCell = rowElem.cells[0]
         this.changeTag(firstCell, 'td')
       })
@@ -207,7 +209,7 @@ export default class TableController {
     // Scrollheight should only be evaluated when the element's height is 'auto'
     element.style.height = 'auto'
     const newHeight = element.scrollHeight
-    element.style.height = newHeight + 'px'
+    element.style.height = `${newHeight}px`
 
     // Make sure all cells in row are as tall as the tallest
     const cellRow = element.dataset.row
@@ -225,7 +227,7 @@ export default class TableController {
       rowEl.style.height = rowElOriginalHeight
     })
     rowTextElems.forEach((rowEl) => {
-      rowEl.style.height = largestHeight + 'px'
+      rowEl.style.height = `${largestHeight}px`
     })
   }
 
@@ -299,7 +301,9 @@ export default class TableController {
    * @returns A promise of whether the row was deleted
    */
   removeRow = async (): Promise<boolean> => {
-    if (this.table.rows.length <= minRows) return
+    if (this.table.rows.length <= minRows) {
+      return
+    }
     const deleteIndex = this.table.rows.length - 1
     let needsConfirmation = false,
       removeValues = ''
@@ -352,7 +356,9 @@ export default class TableController {
    * @returns A promise of whether the row was deleted
    */
   removeColumn = async (): Promise<boolean> => {
-    if (this.table.rows[0].cells.length <= minColumns) return
+    if (this.table.rows[0].cells.length <= minColumns) {
+      return
+    }
     const lastCell = this.table.rows[0].cells[
       this.table.rows[0].cells.length - 1
     ]

@@ -2,11 +2,24 @@ name: CI
 
 on:
   pull_request:
-      branches:
-        - master
+    branches:
+      - master
 
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Verify PR title
+      env:
+        PR_TITLE: ${{ toJson(github.event.pull_request.title) }}
+      run: |
+        /bin/bash ./bin/verify-pr-title.sh "$PR_TITLE"
+
   test:
+    needs: verify
     runs-on: ubuntu-latest
 
     strategy:
@@ -23,6 +36,9 @@ jobs:
 
     - name: Install
       run: npm ci
+
+    - name: Lint
+      run: npm run lint
 
     - name: Build
       run: npm run build --if-present
