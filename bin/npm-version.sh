@@ -6,11 +6,11 @@ case "$LEVEL" in
 "patch" | "minor" | "major")
   npm version "$LEVEL"
   ;;
-"skip-ci")
+"norelease")
   echo "Ignoring version bump."
   ;;
 *)
-  echo "You must include [{patch|minor|major|skip-ci}] in your PR."
+  echo "You must include '[{patch|minor|major|norelease}]' in your PR."
   exit 1
   ;;
 esac

@@ -9,13 +9,14 @@ jobs:
   version:
     runs-on: ubuntu-latest
 
-
     steps:
+      - uses: actions/checkout@v2
+
       - name: NPM versioning
-        run: |
-        /bin/bash ./bin/npm-version.sh
+        run: /bin/bash ./bin/npm-version.sh
 
   test:
+    needs: version
     runs-on: ubuntu-latest
 
     strategy:

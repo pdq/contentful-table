@@ -1,6 +1,6 @@
 # Documentation:
 # https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-static-site-generators-with-nodejs
-name: Github Pages
+name: Deploy
 
 on:
   push:
@@ -8,7 +8,17 @@ on:
       - master
 
 jobs:
+  push-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Tag
+        run: git push --tags
+
   deploy:
+    needs: tag
     runs-on: ubuntu-latest
 
     steps:
