@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v2
+
     - name: Verify PR title
       env:
         PR_TITLE: ${{ toJson(github.event.pull_request.title) }}
