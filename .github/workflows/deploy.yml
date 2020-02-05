@@ -3,38 +3,39 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    types: [closed]
 
 jobs:
   version:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Version
-        run: /bin/bash ./bin/npm-version.sh
-
-      - name: Setup SSH Keys and known_hosts
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      - name: Setup git
         run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.ACTIONS_DEPLOY_KEY }}"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "$GITHUB_ACTOR"
+
+      - name: Version
+        env:
+          PR_TITLE: ${{ toJson(github.event.pull_request.title) }}
+        run: |
+          /bin/bash ./bin/npm-version.sh "$PR_TITLE"
 
       # GH Actions don't infinite loop:
       # https://github.community/t5/GitHub-Actions/How-to-push-to-protected-branches-in-a-GitHub-Action/m-p/36156/highlight/true#M2461
-      - name: Tag
+      # Except when using a PAT:
+      # https://github.community/t5/GitHub-Actions/How-to-push-to-protected-branches-in-a-GitHub-Action/m-p/36156/highlight/true#M2461
+      - name: Push
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          GITHUB_TOKEN: ${{ secrets.VENDOR_PAT }} # Hack: A PAT from an admin account to override our branch protections
+          REPOSITORY: ${{ github.repository }}
         run: |
-          git filter-branch --msg-filter 'printf "[norelease] " && cat' HEAD
-          git push
-          git push --tags
+          git remote add vendor https://x-access-token:$GITHUB_TOKEN@github.com/$REPOSITORY.git
+          git push vendor master --follow-tags
 
   deploy:
     needs: version
