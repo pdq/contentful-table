@@ -25,21 +25,14 @@ jobs:
         run: |
           /bin/bash ./bin/npm-version.sh "$PR_TITLE"
 
-      - name: Setup SSH Keys and known_hosts
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.ACTIONS_DEPLOY_KEY }}"
-
       # GH Actions don't infinite loop:
       # https://github.community/t5/GitHub-Actions/How-to-push-to-protected-branches-in-a-GitHub-Action/m-p/36156/highlight/true#M2461
-      - name: Push tag
+      # Except when using a PAT:
+      # https://github.community/t5/GitHub-Actions/How-to-push-to-protected-branches-in-a-GitHub-Action/m-p/36156/highlight/true#M2461
+      - name: Push
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: git push --follow-tags --force
+          GITHUB_TOKEN: ${{ secrets.VENDOR_PAT }} # Hack: A PAT from PDQVendor overrides our branch protections
+        run: git push --follow-tags
 
   deploy:
     needs: version
