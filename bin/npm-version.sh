@@ -2,6 +2,8 @@
 
 LEVEL="$(git log -1 --pretty=format:'%s' | awk -F '[][]' '{print tolower($2)}')"
 
+echo "Running npm version bump with $LEVEL"
+
 case "$LEVEL" in
 "patch" | "minor" | "major")
   npm version "$LEVEL"
