@@ -34,17 +34,17 @@ jobs:
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           ssh-add - <<< "${{ secrets.ACTIONS_DEPLOY_KEY }}"
 
+      # - name: Push bump
+      #   env:
+      #     SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      #   run: git push
+
       # GH Actions don't infinite loop:
       # https://github.community/t5/GitHub-Actions/How-to-push-to-protected-branches-in-a-GitHub-Action/m-p/36156/highlight/true#M2461
-      - name: Push bump
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: git push
-
-      - name: Push tag
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: git push --tags
+      # - name: Push tag
+      #   env:
+      #     SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      #   run: git push --tags
 
   deploy:
     needs: version
