@@ -35,7 +35,7 @@ jobs:
           REPOSITORY: ${{ toJson(github.repository) }}
         run: |
           git remote add vendor https://x-access-token:$GITHUB_TOKEN@github.com/$REPOSITORY.git
-          git push origin vendor --follow-tags
+          git push vendor master --follow-tags
 
   deploy:
     needs: version
