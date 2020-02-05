@@ -1,4 +1,4 @@
-import TableController from './tableController'
+import TableController from './table-controller'
 import { clamp } from './utils'
 
 export const minColumns = 2
@@ -51,16 +51,20 @@ const createHandlers = (table: TableController) => {
    * Handle column header setting toggle
    */
   useColumnHeaderInputElem.onchange = function(ev) {
-    const checked = (<HTMLInputElement>ev.currentTarget).checked
-    if (checked !== undefined) table.setUseColumnHeader(checked)
+    const checked = (ev.currentTarget as HTMLInputElement).checked
+    if (checked !== undefined) {
+      table.setUseColumnHeader(checked)
+    }
   }
 
   /**
    * Handle row header setting toggle
    */
   useRowHeaderInputElem.onchange = function(ev) {
-    const checked = (<HTMLInputElement>ev.currentTarget).checked
-    if (checked !== undefined) table.setUseRowHeader(checked)
+    const checked = (ev.currentTarget as HTMLInputElement).checked
+    if (checked !== undefined) {
+      table.setUseRowHeader(checked)
+    }
   }
 
   /**
@@ -69,19 +73,19 @@ const createHandlers = (table: TableController) => {
   columnsInputElem.onchange = async function(ev) {
     const oldValue = table.columns
     const newValue = clamp(
-      parseInt((<HTMLInputElement>ev.currentTarget).value, 10),
+      parseInt((ev.currentTarget as HTMLInputElement).value, 10),
       minColumns,
       maxColumns
     )
     let commitNewValue = true
     if (oldValue < newValue) {
       const diff = newValue - oldValue
-      for (var i = 0; i < diff; i++) {
+      for (let i = 0; i < diff; i++) {
         table.addColumn()
       }
     } else if (oldValue > newValue) {
       const diff = oldValue - newValue
-      for (var i = 0; i < diff; i++) {
+      for (let i = 0; i < diff; i++) {
         commitNewValue = await table.removeColumn()
       }
     }
@@ -98,19 +102,19 @@ const createHandlers = (table: TableController) => {
   rowsInputElem.onchange = async function(ev) {
     const oldValue = table.rows
     const newValue = clamp(
-      parseInt((<HTMLInputElement>ev.target).value, 10),
+      parseInt((ev.target as HTMLInputElement).value, 10),
       minRows,
       maxRows
     )
     let commitNewValue = true
     if (oldValue < newValue) {
       const diff = newValue - oldValue
-      for (var i = 0; i < diff; i++) {
+      for (let i = 0; i < diff; i++) {
         table.addRow()
       }
     } else if (oldValue > newValue) {
       const diff = oldValue - newValue
-      for (var i = 0; i < diff; i++) {
+      for (let i = 0; i < diff; i++) {
         commitNewValue = await table.removeRow()
       }
     }
@@ -140,7 +144,9 @@ const createHandlers = (table: TableController) => {
     const oldValue = table.columns
     const newValue = clamp(oldValue - 1, minColumns, maxColumns)
     const deleteConfirmed = await table.removeColumn()
-    if (!deleteConfirmed) return
+    if (!deleteConfirmed) {
+      return
+    }
     columnsInputElem.value = newValue.toString()
   }
 
@@ -163,7 +169,9 @@ const createHandlers = (table: TableController) => {
     const oldValue = table.rows
     const newValue = clamp(oldValue - 1, minRows, maxRows)
     const deleteConfirmed = await table.removeRow()
-    if (!deleteConfirmed) return
+    if (!deleteConfirmed) {
+      return
+    }
     rowsInputElem.value = newValue.toString()
   }
 }
