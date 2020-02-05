@@ -1,6 +1,7 @@
 #!/bin/bash
 
-LEVEL="$(git log -1 --pretty=format:'%s' | awk -F '[][]' '{print tolower($2)}')"
+PR_TITLE="$1"
+LEVEL="$(echo "$PR_TITLE" | awk -F '[][]' '{print tolower($2)}')"
 
 if [ -n "$LEVEL" ]; then
   echo "Bump level: $LEVEL"
