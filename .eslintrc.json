@@ -1,15 +1,18 @@
 {
   "root": true,
   "extends": [
-    "plugin:pdq/recommended",
-    "plugin:pdq/typescript",
-    "plugin:pdq/prettier-ts"
+    "plugin:@pdq/eslint-plugin-pdq/recommended",
+    "plugin:@pdq/eslint-plugin-pdq/typescript",
+    "plugin:@pdq/eslint-plugin-pdq/prettier-ts"
   ],
   "plugins": [
-    "pdq"
+    "@pdq/eslint-plugin-pdq"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json"
+  },
+  "env": {
+    "browser": true
   }
 }
