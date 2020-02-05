@@ -16,7 +16,7 @@ jobs:
       env:
         PR_TITLE: ${{ toJson(github.event.pull_request.title) }}
       run: |
-        /bin/bash ./bin/verify-pr.sh "$PR_TITLE"
+        /bin/bash ./bin/verify-pr-title.sh "$PR_TITLE"
 
   test:
     needs: verify
