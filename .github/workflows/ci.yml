@@ -2,12 +2,11 @@ name: CI
 
 on:
   pull_request:
-      branches:
-        - master
+    branches:
+      - master
 
 jobs:
   test:
-    needs: version
     runs-on: ubuntu-latest
     if: "! contains(toJSON(github.event.commits.*.msg), '[skip ci]')"
 
