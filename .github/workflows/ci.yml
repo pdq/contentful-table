@@ -16,10 +16,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - run: |
-        echo "PR title: $PR_TITLE"
+    - name: Check title
       env:
-        PR_TITLE: ${{ github.context.payload.pull_request.title }}
+        PR_TITLE: ${{ toJson(github.context.payload.pull_request.title) }}
+      run: |
+        echo "PR title: $PR_TITLE"
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
