@@ -209,7 +209,7 @@ export default class TableController {
     // Scrollheight should only be evaluated when the element's height is 'auto'
     element.style.height = 'auto'
     const newHeight = element.scrollHeight
-    element.style.height = newHeight.toString() + 'px'
+    element.style.height = `${newHeight}px`
 
     // Make sure all cells in row are as tall as the tallest
     const cellRow = element.dataset.row
@@ -227,7 +227,7 @@ export default class TableController {
       rowEl.style.height = rowElOriginalHeight
     })
     rowTextElems.forEach((rowEl) => {
-      rowEl.style.height = largestHeight.toString() + 'px'
+      rowEl.style.height = `${largestHeight}px`
     })
   }
 
