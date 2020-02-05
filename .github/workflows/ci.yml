@@ -18,8 +18,10 @@ jobs:
 
     - name: Check title
       env:
+        CONTEXT: ${{ toJson(github.context) }}
         PR_TITLE: ${{ toJson(github.context.payload.pull_request.title) }}
       run: |
+        echo "Context: $CONTEXT"
         echo "PR title: $PR_TITLE"
 
     - name: Use Node.js ${{ matrix.node-version }}
