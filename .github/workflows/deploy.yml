@@ -8,17 +8,24 @@ on:
       - master
 
 jobs:
-  push-tag:
+  version:
     runs-on: ubuntu-latest
+    if: "! contains(toJSON(github.event.commits.*.msg), '[skip deploy]')"
 
     steps:
       - uses: actions/checkout@v2
 
+      - name: NPM versioning
+        run: /bin/bash ./bin/npm-version.sh
+
+      - name:
+        run: git filter-branch --msg-filter 'printf "[norelease] [skip deploy] " && cat' HEAD
+
       - name: Tag
-        run: git push --tags
+        run: git push && git push --tags
 
   deploy:
-    needs: tag
+    needs: version
     runs-on: ubuntu-latest
 
     steps:
