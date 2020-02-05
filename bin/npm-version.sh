@@ -16,7 +16,7 @@ case "$LEVEL" in
   echo "Ignoring version bump."
   ;;
 *)
-  echo "You must include '[{patch|minor|major|norelease}]' in your PR."
+  echo "You must include '[{patch|minor|major|norelease}]' in your PR title."
   exit 1
   ;;
 esac
