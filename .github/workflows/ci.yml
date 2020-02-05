@@ -19,7 +19,7 @@ jobs:
     - name: Check title
       env:
         CONTEXT: ${{ toJson(github) }}
-        PR_TITLE: ${{ toJson(github.payload.pull_request.title) }}
+        PR_TITLE: ${{ toJson(github.pull_request.title) }}
       run: |
         echo "Context: $CONTEXT"
         echo "PR title: $PR_TITLE"
