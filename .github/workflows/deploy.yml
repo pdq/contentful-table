@@ -39,7 +39,7 @@ jobs:
       - name: Push tag
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: git push --follow-tags
+        run: git push --follow-tags --force
 
   deploy:
     needs: version
