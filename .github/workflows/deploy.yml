@@ -20,7 +20,10 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
 
       - name: Version
-        run: /bin/bash ./bin/npm-version.sh
+        env:
+          PR_TITLE: ${{ toJson(github.event.pull_request.title) }}
+        run: |
+          /bin/bash ./bin/npm-version.sh "$PR_TITLE"
 
       - name: Setup SSH Keys and known_hosts
         env:
