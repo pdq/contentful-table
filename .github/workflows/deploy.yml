@@ -9,10 +9,11 @@ on:
 jobs:
   version:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.BOT_PAT }} # Hack: A PAT from an admin account to override our branch protections
 
       - name: Setup git
         run: |
@@ -30,15 +31,11 @@ jobs:
       # Except when using a PAT:
       # https://github.community/t5/GitHub-Actions/How-to-push-to-protected-branches-in-a-GitHub-Action/m-p/36156/highlight/true#M2461
       - name: Push
-        env:
-          GITHUB_TOKEN: ${{ secrets.VENDOR_PAT }} # Hack: A PAT from an admin account to override our branch protections
-          REPOSITORY: ${{ github.repository }}
         run: |
-          git remote add vendor https://x-access-token:$GITHUB_TOKEN@github.com/$REPOSITORY.git
-          git push vendor master --follow-tags
+          git push --follow-tags
 
   deploy:
-    needs: version
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
