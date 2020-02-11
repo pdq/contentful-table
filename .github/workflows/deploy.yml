@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.VENDOR_PAT }} # Hack: A PAT from an admin account to override our branch protections
+          token: ${{ secrets.BOT_PAT }} # Hack: A PAT from an admin account to override our branch protections
 
       - name: Setup git
         run: |
