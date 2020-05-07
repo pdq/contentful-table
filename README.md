@@ -84,3 +84,12 @@ npm start
 
 - [`Uncaught ReferenceError: regeneratorRuntime`](https://github.com/parcel-bundler/parcel/issues/1762) - workaround: using `"browserslist": ["last 1 Chrome versions"]`. [To be fixed in Parcel 2.0](https://github.com/parcel-bundler/parcel/issues/1762#issuecomment-480687638)
 - [`env-cmd` variable expansion in NPM scripts](https://github.com/toddbluhm/env-cmd/issues/112)
+
+## Code of Conduct
+
+This project has adopted the [Contributor Covenant](https://www.contributor-covenant.org/). For more information see this project's [Code of Conduct](./CODE_OF_CONDUCT.md).
+
+## License
+Copyright (c) PDQ.com. All rights reserved.
+
+Licensed under the [MIT license](./LICENSE).
