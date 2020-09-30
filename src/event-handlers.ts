@@ -50,7 +50,7 @@ const createHandlers = (table: TableController) => {
   /**
    * Handle column header setting toggle
    */
-  useColumnHeaderInputElem.onchange = function(ev) {
+  useColumnHeaderInputElem.onchange = function (ev) {
     const checked = (ev.currentTarget as HTMLInputElement).checked
     if (checked !== undefined) {
       table.setUseColumnHeader(checked)
@@ -60,7 +60,7 @@ const createHandlers = (table: TableController) => {
   /**
    * Handle row header setting toggle
    */
-  useRowHeaderInputElem.onchange = function(ev) {
+  useRowHeaderInputElem.onchange = function (ev) {
     const checked = (ev.currentTarget as HTMLInputElement).checked
     if (checked !== undefined) {
       table.setUseRowHeader(checked)
@@ -70,7 +70,7 @@ const createHandlers = (table: TableController) => {
   /**
    * Handles columns field input alter to change table column sizing
    */
-  columnsInputElem.onchange = async function(ev) {
+  columnsInputElem.onchange = async function (ev) {
     const oldValue = table.columns
     const newValue = clamp(
       parseInt((ev.currentTarget as HTMLInputElement).value, 10),
@@ -99,7 +99,7 @@ const createHandlers = (table: TableController) => {
   /**
    * Handles rows field input change to alter table row sizing
    */
-  rowsInputElem.onchange = async function(ev) {
+  rowsInputElem.onchange = async function (ev) {
     const oldValue = table.rows
     const newValue = clamp(
       parseInt((ev.target as HTMLInputElement).value, 10),
@@ -129,7 +129,7 @@ const createHandlers = (table: TableController) => {
    * Handles add column button clicks to add a new column and
    * increase columns input count by one
    */
-  addColumnButtonElem.onclick = function(_ev) {
+  addColumnButtonElem.onclick = function (_ev) {
     const oldValue = table.columns
     const newValue = clamp(oldValue + 1, minColumns, maxColumns)
     table.addColumn()
@@ -140,7 +140,7 @@ const createHandlers = (table: TableController) => {
    * Handles remove column button clicks to remove the last column
    * and decrease columns input count by one
    */
-  removeColumnButtonElem.onclick = async function(_ev) {
+  removeColumnButtonElem.onclick = async function (_ev) {
     const oldValue = table.columns
     const newValue = clamp(oldValue - 1, minColumns, maxColumns)
     const deleteConfirmed = await table.removeColumn()
@@ -154,7 +154,7 @@ const createHandlers = (table: TableController) => {
    * Handles add row button clicks to add a new row and
    * increase the row input count by one
    */
-  addRowButtonElem.onclick = function(_ev) {
+  addRowButtonElem.onclick = function (_ev) {
     const oldValue = table.rows
     const newValue = clamp(oldValue + 1, minRows, maxRows)
     table.addRow()
@@ -165,7 +165,7 @@ const createHandlers = (table: TableController) => {
    * Handles remove row button clicks to remove a new row
    * and decrease the row input count by one
    */
-  removeRowButtonElem.onclick = async function(_ev) {
+  removeRowButtonElem.onclick = async function (_ev) {
     const oldValue = table.rows
     const newValue = clamp(oldValue - 1, minRows, maxRows)
     const deleteConfirmed = await table.removeRow()

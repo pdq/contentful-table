@@ -1,4 +1,3 @@
-// @ts-ignore
 import { init as initContentfulExtension } from 'contentful-ui-extensions-sdk'
 
 import TableController from './table-controller'
@@ -74,6 +73,8 @@ const handleInitialization = (extension?: Extension) => {
  */
 if (useContentfulApi()) {
   try {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore we need to verify whether the types provided with the contentful SDK are correct or not
     initContentfulExtension(handleInitialization)
   } catch (err) {
     console.error(err) // eslint-disable-line no-console
