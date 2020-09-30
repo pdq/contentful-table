@@ -1,15 +1,18 @@
 /**
  * @documentation https://github.com/contentful/ui-extensions-sdk/blob/master/typings.d.ts
  */
-// @ts-ignore
 import { FieldAPI, DialogsAPI } from 'contentful-ui-extensions-sdk'
 
 export { DialogsAPI }
 
 export enum Intent {
-  Primary = 'primary',
-  Positive = 'positive',
-  Negative = 'negative',
+  PRIMARY = 'primary',
+  POSITIVE = 'positive',
+  NEGATIVE = 'negative',
+}
+
+const noop = () => {
+  /* noop */
 }
 
 /**
@@ -125,15 +128,13 @@ class MockExtensionField {
   }
 }
 
-const emptyFunction = () => {}
-
 /**
  * @returns mimic for extension parameter provided by Contentful API
  */
 export const createMockExtension = (): Extension => ({
   field: new MockExtensionField(),
   window: {
-    updateHeight: emptyFunction,
-    startAutoResizer: emptyFunction,
+    updateHeight: noop,
+    startAutoResizer: noop,
   },
 })

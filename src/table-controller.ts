@@ -317,8 +317,9 @@ export default class TableController {
     })
     const yesDelete = needsConfirmation
       ? await this.confirmDelete(
-          `Are you sure you want to delete row ${deleteIndex +
-            1}?${removeValues}`
+          `Are you sure you want to delete row ${
+            deleteIndex + 1
+          }?${removeValues}`
         )
       : true
     if (yesDelete) {

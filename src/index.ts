@@ -1,4 +1,3 @@
-// @ts-ignore
 import { init as initContentfulExtension } from 'contentful-ui-extensions-sdk'
 
 import TableController from './table-controller'
