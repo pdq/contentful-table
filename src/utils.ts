@@ -48,6 +48,8 @@ export interface ExtensionValues {
   tableData: TableData
 }
 
+type ChangeHandler = (arg: ExtensionValues) => void
+
 /**
  * Field action prototype to edit the `ExtensionValues`
  * of this extension. Not all values on this object are typed here
@@ -56,7 +58,8 @@ export type ExtensionField =
   | FieldAPI
   | {
       getValue: () => ExtensionValues
-      setValue: (arg: ExtensionValues) => void
+      setValue: ChangeHandler
+      onValueChanged: (arg: ChangeHandler) => ChangeHandler
     }
 
 /**
@@ -124,7 +127,7 @@ class MockExtensionField {
   }
 
   onValueChanged() {
-    return this.getValue()
+    return this.getValue
   }
 }
 

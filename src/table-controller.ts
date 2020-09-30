@@ -184,7 +184,7 @@ export default class TableController {
       return this.dialogs.openConfirm({
         title: 'Really delete?',
         message,
-        intent: Intent.Negative,
+        intent: Intent.NEGATIVE,
       })
     } else {
       return window.confirm(message)
